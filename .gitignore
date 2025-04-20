@@ -42,7 +42,6 @@ _private_key.pem
 *.tar.gz
 
 # Editor and IDE-specific files
-.vscode/
 *.code-workspace
 .idea/
 *.sublime-workspace
@@ -227,4 +226,4 @@ cython_debug/
 scripts.local/
 
 # Local VSCode settings
-.vscode/settings.json
+.vscode/

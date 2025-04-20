@@ -8,5 +8,16 @@
   "python.analysis.extraPaths": [
     "./registry"
   ],
-  "postman.settings.dotenv-detection-notification-visibility": false
+  "postman.settings.dotenv-detection-notification-visibility": false,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Tracecat Dev DB",
+      "database": "postgres",
+      "username": "postgres"
+    }
+  ]
 }
