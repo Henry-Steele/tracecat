@@ -140,7 +140,7 @@ done
 dotenv_replace "TRACECAT__APP_ENV" "$env_mode" "$env_file"
 dotenv_replace "NODE_ENV" "$env_mode" "$env_file"
 dotenv_replace "NEXT_PUBLIC_APP_ENV" "$env_mode" "$env_file"
-dotenv_replace "PUBLIC_API_URL" "http://${new_ip}/api/" "$env_file"
+dotenv_replace "PUBLIC_API_URL" "http://${new_ip}/api" "$env_file"
 dotenv_replace "PUBLIC_APP_URL" "http://${new_ip}" "$env_file"
 dotenv_replace "TRACECAT__DB_SSLMODE" "$ssl_mode" "$env_file"
 
@@ -149,3 +149,5 @@ new_origins=$(echo "$new_origins" | tr ',' '\n' | sort -u | tr '\n' ',' | sed 's
 dotenv_replace "TRACECAT__ALLOW_ORIGINS" "$new_origins" "$env_file"
 
 echo -e "${GREEN}Environment file created successfully.${NC}"
+
+# TODO: Add logic to ensure that CORS is set correctly for local development
