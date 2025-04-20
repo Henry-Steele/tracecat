@@ -35,8 +35,16 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: process.env.POSTHOG_KEY
-              ? [
+            value: (() => {
+              const connectSrcDev = [
+                "http://127.0.0.1",
+                "http://127.0.0.1:80/api/*",
+                "http://localhost",
+                "http://localhost:80/api/*",
+              ]
+              let baseDirectives
+              if (process.env.POSTHOG_KEY) {
+                baseDirectives = [
                   "connect-src 'self' https://*.posthog.com",
                   "default-src 'self'",
                   "worker-src 'self' blob:",
@@ -45,8 +53,9 @@ const nextConfig = {
                   "object-src 'none'",
                   "script-src 'self' 'unsafe-inline' https://*.posthog.com",
                   "style-src 'self' 'unsafe-inline'",
-                ].join("; ")
-              : [
+                ]
+              } else {
+                baseDirectives = [
                   "connect-src 'self'",
                   "default-src 'self'",
                   "worker-src 'self' blob:",
@@ -55,7 +64,24 @@ const nextConfig = {
                   "object-src 'none'",
                   "script-src 'self' 'unsafe-inline'",
                   "style-src 'self' 'unsafe-inline'",
-                ].join("; "),
+                ]
+              }
+
+              // Modify connect-src based on environment
+              if (process.env.NODE_ENV !== "production") {
+                const connectSrcIndex = baseDirectives.findIndex((dir) =>
+                  dir.startsWith("connect-src")
+                )
+                if (connectSrcIndex !== -1) {
+                  baseDirectives[connectSrcIndex] = [
+                    baseDirectives[connectSrcIndex],
+                    ...connectSrcDev,
+                  ].join(" ")
+                }
+              }
+
+              return baseDirectives.join("; ")
+            })(),
           },
         ],
       },
